@@ -14,5 +14,7 @@ export class Tab2Page {
     public photoService:PhotoService,
   ) {}
 
-  
+  ngOnInit(){
+    this.photoService.loadSaved();
+  }
   }
