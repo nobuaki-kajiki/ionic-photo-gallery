@@ -24,7 +24,7 @@ export class PhotoService {
 
     this.camera.getPicture(options).then((imageData) =>{
       this.photos.unshift({
-        data: 'data:image/jpeg;base64' + imageData
+        data: 'data:image/jpeg;base64,' + imageData
       });
 
       this.storage.set('photos',this.photos);
@@ -37,6 +37,11 @@ export class PhotoService {
     this.storage.get('photos').then((photos) => {
       this.photos = photos || [];
     });
+  }
+
+  allClear(){
+    this.storage.clear();
+    this.loadSaved();
   }
 }
 class Photo{
