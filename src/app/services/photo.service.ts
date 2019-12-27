@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Camera,CameraOptions } from '@ionic-native/camera/ngx';
 import { Storage } from '@ionic/storage';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class PhotoService {
 
   constructor(
     private camera:Camera,
-    private storage: Storage
+    private storage: Storage,
+    public alertController:AlertController,
   ) { }
 
   takePicture(){
@@ -39,9 +41,28 @@ export class PhotoService {
     });
   }
 
-  allClear(){
-    this.storage.clear();
-    this.loadSaved();
+  async allClear(){
+    const alert = await this.alertController.create({
+      header:'Do you want to delete all data?',
+      buttons:[
+        {
+          text:'Cancel',
+          role:'cansel',
+          handler: data =>{
+
+          }
+        },
+        {
+          text:'OK',
+          role:'OK',
+          handler: data =>{
+            this.storage.clear();
+            this.loadSaved();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }
 class Photo{
